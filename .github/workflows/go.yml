@@ -18,8 +18,18 @@ jobs:
       with:
         go-version: 1.16
 
-    - name: Build
+    - name: BuildWin
+      env: 
+        GOOS: windows
+        GOARCH: amd64
+      run: go build -v ./...
+      
+    - name: BuildLinux
+      env: 
+        GOOS: linux
+        GOARCH: amd64
       run: go build -v ./...
 
     - name: Test
       run: go test -v ./...
+
