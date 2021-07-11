@@ -3,7 +3,8 @@ package main
 import (
 	"log"
 
-	"richard/rspace-client/cmd"
+	"github.com/rspace-os/rspace-cli/cmd"
+
 	"github.com/spf13/cobra/doc"
 )
 
