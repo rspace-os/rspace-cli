@@ -15,7 +15,7 @@ limitations under the License.
 */
 package main
 
-import "richard/rspace-client/cmd"
+import "github.com/rspace-os/rspace-cli/cmd"
 
 func main() {
 	cmd.Execute()
