@@ -84,9 +84,17 @@ func initConfig() {
 	viper.AutomaticEnv() // read in environment variables that match
 
 	// If a config file is found, read it in.
-	if err := viper.ReadInConfig(); err == nil {
+	err := viper.ReadInConfig()
+	if err == nil {
 		messageStdErr("Using config file:" + viper.ConfigFileUsed())
-	} else {
-		exitWithErr(err)
+	}
+	if err != nil {
+		msg := fmt.Sprintf("No config file found. Looking for environment variables %s and %s",
+			APIKEY_ENV_NAME, BASE_URL_ENV_NAME)
+		messageStdErr(msg)
+
+		if viper.Get(APIKEY_ENV_NAME) == nil || viper.Get(BASE_URL_ENV_NAME) == nil {
+			exitWithStdErrMsg("No config file or environment variables found")
+		}
 	}
 }
