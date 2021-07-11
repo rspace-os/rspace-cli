@@ -162,6 +162,9 @@ func initWebClient(clientTimeout int) *rspace.RsWebClient {
 	if !ok || len(urlCfg) == 0 {
 		exitWithStdErrMsg("No URL for RSpace  detected")
 	}
+	if !strings.Contains(urlCfg, "/api/v1") {
+		urlCfg = urlCfg + "/api/v1"
+	}
 	url, _ := url.Parse(urlCfg)
 	messageStdErr("RSpace URL: " + urlCfg)
 	apikey, ok := viper.Get(APIKEY_ENV_NAME).(string)
