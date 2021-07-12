@@ -207,3 +207,35 @@ rspace eln  export 123 --scope user  --wait -f quiet | \
 ```
 
 This latter command could be used as an input to  `cron`. What you do from here is up to you - send to a long-term archive or repository, send to collaborators etc.
+
+## 8.  Exporting many users's work
+
+### Scenario
+
+You have many users' work to export, perhaps to transfer to an archive or to transfer from another RSpace server
+
+### Solution
+
+First of all get the usernames and ids of user:
+
+    ./rscli eln listUsers --maxResults 100 -f csv | grep -v '-' | cut -d ',' -f1,2 > users.csv
+
+This gets users, filters out hte relevant fields and saves in a CSV file. (Note there is a limit of 100 users currently)
+
+Now iterate over this list, export and download
+
+```
+   logFile=$(date "+%d-%m-%y-%T").log
+   outfileDir=/media/rspace/exports
+   echo "Logging progress to $logFile"
+   while read person; do
+      id=$(echo $person |  awk -F "," '{print $1}')
+      user=$(echo $person |  awk -F "," '{print $2}')
+      echo "exporting $user"
+      echo "exporting $user" >> $logFile
+      jobid=$(./rscli eln export $id --scope user --format xml --wait | tail -n +2 | cut -f1)
+      echo "downloading export from jobID $jobid"
+      ./rscli eln job $jobid --download --outfile ${outfileDir}/${user}.zip
+    done < users.csv
+echo "Completed"
+
