@@ -220,9 +220,9 @@ First of all get the usernames and ids of user:
 
     ./rscli eln listUsers --maxResults 100 -f csv | grep -v '-' | cut -d ',' -f1,2 > users.csv
 
-This gets users, filters out hte relevant fields and saves in a CSV file. (Note there is a limit of 100 users currently)
+This gets users, filters out the relevant fields and saves them in a CSV file. (Note there is a limit of 100 users currently).
 
-Now iterate over this list, export and download
+Now iterate over this list, export and download:
 
 ```
    logFile=$(date "+%d-%m-%y-%T").log
