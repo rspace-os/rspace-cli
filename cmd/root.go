@@ -96,7 +96,7 @@ func initConfig() {
 		messageStdErr(msg)
 
 		if viper.Get(APIKEY_ENV_NAME) == nil || viper.Get(BASE_URL_ENV_NAME) == nil {
-			exitWithStdErrMsg("No config file or environment variables found")
+			messageStdErr("No environment variables found")
 		}
 	}
 }

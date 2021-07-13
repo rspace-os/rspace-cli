@@ -23,8 +23,10 @@ BUILD_LOG=$DIST_DIR/build.log
 function build {
    ## set the version into version command.
    #sed -i -e  "s/\(var rsVersion = \)\S\+/\1\"$VERSION\"/" cmd/version.go
-   # no uses go16 embed 
-   echo "$version" > cmd/version.txt
+   # now uses go16 embed 
+   VERSION_FILE=cmd/version.txt
+   rm  $VERSION_FILE
+   echo "$VERSION" > $VERSION_FILE
 
     ### remove any old builds 
     rm -rf $DIST_DIR 
