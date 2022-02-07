@@ -183,7 +183,7 @@ func readDocContentFromFile(addDocArgV addDocArgs, docClient DocClient) ([]*rspa
 	} else {
 		doc, err := docClient.NewDocumentWithContent(&toPost)
 		if err != nil {
-			messageStdErr("Could not create document")
+			exitWithErr(err)
 		}
 		createdDocs = append(createdDocs, doc.DocumentInfo)
 
