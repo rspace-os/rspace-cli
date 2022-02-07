@@ -67,7 +67,11 @@ func idsFromGlobalIds(globalIds []string) []int {
 
 // idFromGlobalId matches either globalId string or a numeric id, returning
 // the numeric id or an Error if input string cannot be parsed
+// If the globalId is empty string, returns 0.
 func idFromGlobalId(globalId string) (int, error) {
+	if globalId == "" {
+		return 0, nil
+	}
 	v, _ := strconv.Atoi(globalId)
 	if v > 0 {
 		return v, nil

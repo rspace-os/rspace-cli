@@ -118,5 +118,7 @@ func (ds *DocumentAddOK) NewBasicDocumentWithContent(name, tags, content string)
 }
 
 func (ds *DocumentAddOK) NewDocumentWithContent(post *rspace.DocumentPost) (*rspace.Document, error) {
-	return &rspace.Document{}, nil
+	namable := &rspace.IdentifiableNamable{Id: 1234}
+	rc := rspace.DocumentInfo{IdentifiableNamable: namable}
+	return &rspace.Document{DocumentInfo: &rc}, nil
 }

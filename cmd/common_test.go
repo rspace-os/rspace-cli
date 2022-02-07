@@ -16,6 +16,9 @@ func TestIdFromGlobalId(t *testing.T) {
 
 	id, err = idFromGlobalId("12334")
 	assertIdEquals(t, id, 12334)
+
+	id, err = idFromGlobalId("")
+	assertIdEquals(t, id, 0)
 }
 
 func TestAbbreviate(t *testing.T) {
