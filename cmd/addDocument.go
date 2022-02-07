@@ -97,11 +97,25 @@ func doAddDocRun(addDocArgV addDocArgs, context *Context, docClient DocClient) e
 	createdDocs := make([]*rspace.DocumentInfo, 0)
 	if len(addDocArgV.FormId) == 0 {
 		content := getContent(addDocArgV)
-		created, err = docClient.NewBasicDocumentWithContent(addDocArgV.NameArg,
-			addDocArgV.Tags, content)
+		docPost := rspace.DocumentPost{}
+		docPost.Name = addDocArgV.NameArg
+		docPost.Tags = addDocArgV.Tags
+		parentFolderId, err := idFromGlobalId(addDocArgV.ParentfolderArg)
+		if err != nil {
+			exitWithErr(err)
+		}
+		docPost.ParentFolderId = parentFolderId
+
+		var fields []rspace.FieldContent = make([]rspace.FieldContent, 1)
+		fields[0] = rspace.FieldContent{Content: content, Id: 0}
+		docPost.Fields = fields
+		created, err = docClient.NewDocumentWithContent(&docPost)
+		if err != nil {
+			exitWithErr(err)
+		}
 		createdDocs = append(createdDocs, created.DocumentInfo)
 	} else {
-		// we make a sructured document
+		// we make a structured document
 		createdDocs, err = readDocContentFromFile(addDocArgV, docClient)
 	}
 
@@ -130,9 +144,16 @@ func readDocContentFromFile(addDocArgV addDocArgs, docClient DocClient) ([]*rspa
 	if err != nil {
 		return nil, err
 	}
+
+	parentFolderId, err := idFromGlobalId(addDocArgV.ParentfolderArg)
+	if err != nil {
+		return nil, err
+	}
+
 	var toPost = rspace.DocumentPost{}
 	toPost.Name = addDocArgV.NameArg
 	toPost.Tags = addDocArgV.Tags
+	toPost.ParentFolderId = parentFolderId
 	toPost.FormID = rspace.FormId{formId}
 	if len(addDocArgV.InputData) > 0 {
 		f, err := os.Open(addDocArgV.InputData)
@@ -171,6 +192,13 @@ func readDocContentFromFile(addDocArgV addDocArgs, docClient DocClient) ([]*rspa
 			}
 			createdDocs = append(createdDocs, doc.DocumentInfo)
 		}
+	} else {
+		doc, err := docClient.NewDocumentWithContent(&toPost)
+		if err != nil {
+			exitWithErr(err)
+		}
+		createdDocs = append(createdDocs, doc.DocumentInfo)
+
 	}
 	return createdDocs, nil
 }
