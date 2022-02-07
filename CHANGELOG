@@ -1,0 +1,9 @@
+## Changelog
+
+This file records significant changes to this project, from 0.0.19 onwards
+
+## Unreleased
+
+### Fixed
+
+- #5 and #6 addDocument now handles forms and parentFolders properly
