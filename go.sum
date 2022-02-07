@@ -215,6 +215,8 @@ github.com/posener/complete v1.1.1/go.mod h1:em0nMJCgc9GFtwrmVmEMR/ZL6WyhyjMBndr
 github.com/prometheus/client_model v0.0.0-20190812154241-14fe0d1b01d4/go.mod h1:xMI15A0UPsDsEKsMN9yxemIoYk6Tm2C1GtYGdfGttqA=
 github.com/richarda23/rspace-client-go v0.0.20 h1:DFlFnlQsI4Vgc84/qriHn5p7op78D0onLHt7q6y4Y9I=
 github.com/richarda23/rspace-client-go v0.0.20/go.mod h1:dt5Kqf04smQtvsTy9D+ghJxj8LM8KOou2ZqYyEditZI=
+github.com/richarda23/rspace-client-go v0.0.21 h1:CjcST1Ivxm9SechExUzghWD0Ek3IZbdyp0QPm2tqlkI=
+github.com/richarda23/rspace-client-go v0.0.21/go.mod h1:jSGpLd1VA3wYBsD6DH5kIvpQYuhIDn+oSQKogkOWdMQ=
 github.com/rogpeppe/fastuuid v1.2.0/go.mod h1:jVj6XXZzXRy/MSR5jhDC/2q6DgLz+nrA6LYCDYWNEvQ=
 github.com/rogpeppe/go-internal v1.3.0/go.mod h1:M8bDsm7K2OlrFYOpmOWEs/qY81heoFRclV5y23lUDJ4=
 github.com/russross/blackfriday/v2 v2.0.1 h1:lPqVAte+HuHNfhJ/0LC98ESWRz8afy9tM/0RK8m9o+Q=
