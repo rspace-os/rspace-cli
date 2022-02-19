@@ -40,7 +40,9 @@ Alternatively set these as environment variables.
 
 Environment variables override settings in the config file.
 
-To see all the ELN commands run rspace eln --help
+To see all the ELN commands run 
+
+    rspace eln --help
 `,
 	//	Run: func(cmd *cobra.Command, args []string) { },
 }
