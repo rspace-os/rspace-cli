@@ -1,6 +1,6 @@
 ## RSpace-CLI
 
-RSpace-CLI is a command-line application to interact with RSpace ELN in a more convenient
+RSpace-CLI is a command-line application to interact with [RSpace ELN](https://www.researchspace.com) in a more convenient
 and compact way than using the API directly. It supports scripting and programmatic access
 to RSpace for automation, bulk operations and routine functions and can be used independently or in conjunction with RSpace web application.
 
