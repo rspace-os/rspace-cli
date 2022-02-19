@@ -21,12 +21,13 @@ It is written in the Go programming language.
 
 ### Downloading
 
-This project used to serve builds from Bintray but Bintray no longer exists
-Builds are available to RSpace users from ResearchSpace download site -  please ask for details.
+Binaries are available as releases on this Github project site. 
 
-Once downloaded please run 
+Once downloaded, make the file executable and optionally create a convenient alias, e.g. 
 
-    rspace eln --help
+    ln -s my-download rspace
+    chmod 755 rspace
+    ./rspace eln --help
 
 to show commands and their arguments. You can also view an [HTML version](docs/generated/rspace-client_eln.md) of the documentation.
 
