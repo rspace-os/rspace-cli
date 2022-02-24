@@ -66,7 +66,6 @@ func getNextPageIndex(userList *rspace.UserList) int {
 				m, _ := url.ParseQuery(u.RawQuery)
 				pageNumber, _ := strconv.Atoi(m["pageNumber"][0])
 				return pageNumber
-
 			}
 		}
 	}
@@ -94,8 +93,6 @@ func doListusers(ctx *Context, cfg rspace.RecordListingConfig) {
 			}
 			users = append(users, usersList.Users...)
 			next_link = getNextPageIndex(usersList)
-			//formatter := &UserListFormatter{usersList}
-			//ctx.writeResult(formatter)
 		}
 	}
 	allUserList := rspace.UserList{Users: users, TotalHits: usersList.TotalHits,
@@ -128,7 +125,7 @@ func (ds *UserListFormatter) ToTable() *TableResult {
 	maxEmailLen := len(results[0].Email)
 	sort.SliceStable(results,
 		func(i, j int) bool { return len(results[j].Username) < len(results[i].Username) })
-	maxUnameLen := len(results[0].Username)
+	maxUnameLen := maxInt(8, len(results[0].Username))
 	sort.SliceStable(results,
 		func(i, j int) bool { return len(results[j].FirstName) < len(results[i].FirstName) })
 	maxFnameLen := maxInt(9, len(results[0].FirstName))
@@ -146,11 +143,10 @@ func (ds *UserListFormatter) ToTable() *TableResult {
 		rows = append(rows, data)
 	}
 	return &TableResult{headers, rows}
-
 }
+
 func toIdentifiableUser(results []*rspace.UserInfo) []identifiable {
 	rows := make([]identifiable, 0)
-
 	for _, res := range results {
 		rows = append(rows, identifiable{strconv.Itoa(res.Id)})
 	}
