@@ -4,3 +4,4 @@ dist/
 .bintray-api.sh
 *.env
 rspace-cli
+pwd.txt

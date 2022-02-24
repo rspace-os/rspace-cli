@@ -16,6 +16,7 @@ limitations under the License.
 package cmd
 
 import (
+	"net/url"
 	"sort"
 	"strconv"
 	"time"
@@ -54,6 +55,24 @@ rspace eln listUsers --maxResults 120 | sort -k2
 	},
 }
 
+var allArg bool = false
+
+func getNextPageIndex(userList *rspace.UserList) int {
+	links := userList.Links
+	for _, link := range links {
+		if link.Rel == "next" {
+			u, _ := url.Parse(link.Link)
+			if u != nil {
+				m, _ := url.ParseQuery(u.RawQuery)
+				pageNumber, _ := strconv.Atoi(m["pageNumber"][0])
+				return pageNumber
+
+			}
+		}
+	}
+	return 0
+}
+
 func doListusers(ctx *Context, cfg rspace.RecordListingConfig) {
 	var usersList *rspace.UserList
 	var err error
@@ -61,7 +80,27 @@ func doListusers(ctx *Context, cfg rspace.RecordListingConfig) {
 	if err != nil {
 		exitWithErr(err)
 	}
-	formatter := &UserListFormatter{usersList}
+	var next_link = getNextPageIndex(usersList)
+	users := usersList.Users
+
+	// get all pages and aggregate results
+	if allArg {
+		for next_link != 0 {
+
+			cfg.PageNumber = next_link
+			usersList, err = ctx.WebClient.Users(time.Time{}, time.Time{}, cfg)
+			if err != nil {
+				exitWithErr(err)
+			}
+			users = append(users, usersList.Users...)
+			next_link = getNextPageIndex(usersList)
+			//formatter := &UserListFormatter{usersList}
+			//ctx.writeResult(formatter)
+		}
+	}
+	allUserList := rspace.UserList{Users: users, TotalHits: usersList.TotalHits,
+		Links: usersList.Links, PageNumber: 0}
+	formatter := &UserListFormatter{&allUserList}
 	ctx.writeResult(formatter)
 }
 
@@ -92,10 +131,10 @@ func (ds *UserListFormatter) ToTable() *TableResult {
 	maxUnameLen := len(results[0].Username)
 	sort.SliceStable(results,
 		func(i, j int) bool { return len(results[j].FirstName) < len(results[i].FirstName) })
-	maxFnameLen := len(results[0].FirstName)
+	maxFnameLen := maxInt(9, len(results[0].FirstName))
 	sort.SliceStable(results,
 		func(i, j int) bool { return len(results[j].LastName) < len(results[i].LastName) })
-	maxLnameLen := len(results[0].LastName)
+	maxLnameLen := maxInt(9, len(results[0].LastName))
 	headers := []columnDef{columnDef{"Id", 8}, columnDef{"Username", maxUnameLen},
 		columnDef{"email", maxEmailLen}, columnDef{"FirstName", maxFnameLen},
 		columnDef{"LastName", maxLnameLen}}
@@ -120,4 +159,5 @@ func toIdentifiableUser(results []*rspace.UserInfo) []identifiable {
 func init() {
 	elnCmd.AddCommand(listUsersCmd)
 	initPaginationFromArgs(listUsersCmd)
+	listUsersCmd.PersistentFlags().BoolVar(&allArg, "all", false, "Gets all users")
 }

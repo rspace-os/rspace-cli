@@ -33,6 +33,12 @@ func assertEqualString(t *testing.T, expected, got string) {
 	}
 }
 
+func assertEqualInt(t *testing.T, expected, got int) {
+	if got != expected {
+		t.Fatalf("got %d, expected %d", got, expected)
+	}
+}
+
 func TestMaxColWidth(t *testing.T) {
 	doc1 := rspace.IdentifiableNamable{Name: "abcde"}
 	doc2 := rspace.IdentifiableNamable{Name: "abcdefdfkdsfj"}
