@@ -38,13 +38,13 @@ filter or sort using standard Unix utilities.
 	`,
 	Example: `
 // find out how many users you have:
-rspace eln listUsers --maxResults 20 -f json | jq '.TotalHits'
+rspace eln listUsers --all -f json | jq '.TotalHits'
 
 // or just use 'grep' if you don't have 'jq' installed:
-rspace eln listUsers --maxResults 20 -f json | grep TotalHits
+rspace eln listUsers --all -f json | grep TotalHits
 
 // now you can get all users in one go and sort by any column e.g. by username:
-rspace eln listUsers --maxResults 120 | sort -k2
+rspace eln listUsers --all | sort -k2
 	`,
 
 	Run: func(cmd *cobra.Command, args []string) {
