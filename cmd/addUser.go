@@ -18,9 +18,10 @@ package cmd
 import (
 	"io/ioutil"
 
+	"strings"
+
 	"github.com/richarda23/rspace-client-go/rspace"
 	"github.com/spf13/cobra"
-	//"fmt"
 )
 
 type addUserArgs struct {
@@ -56,6 +57,7 @@ func validateFlags() *rspace.UserPost {
 	if err != nil {
 		exitWithStdErrMsg("No password file supplied. Please put user password in a file and use the 'pwdfile' argument")
 	}
+
 	builder := &rspace.UserPostBuilder{}
 	builder.Password(string(pwd)).Username(userArgs.UsernameArg)
 	builder.Email(rspace.Email(userArgs.EmailArg))
@@ -68,8 +70,9 @@ func validateFlags() *rspace.UserPost {
 	return post
 }
 
+// pi or user by default
 func getRoleForArg(arg string) rspace.UserRoleType {
-	if arg == "pi" {
+	if strings.ToLower(arg) == "pi" {
 		return rspace.Pi
 	} else {
 		return rspace.User
