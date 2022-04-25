@@ -208,7 +208,7 @@ rspace eln  export 123 --scope user  --wait -f quiet | \
 
 This latter command could be used as an input to  `cron`. What you do from here is up to you - send to a long-term archive or repository, send to collaborators etc.
 
-## 8.  Exporting many users's work
+## 8.  Exporting many users' work
 
 ### Scenario
 
