@@ -110,7 +110,7 @@ rs3.zip   	3         	2020-05-02T11:32:09Z  	2020-05-17T20:01:58Z  	user5e;bobsm
 If you want to find out more information about a single archive, you can use the extended summary flag `--xsummary`; this will list the names of documents in the archive
 
 ```
-    rspace archive myArchive1.zip myArchive2.zip --xsummary
+    rspace archive myArchive1.zip --xsummary
 ```
 
 ## 6. Creating partially filled content automatically for Structured (multi-field) documents
@@ -216,11 +216,11 @@ You have many users' work to export, perhaps to transfer to an archive or to tra
 
 ### Solution
 
-First of all get the usernames and ids of user:
+First of all get the usernames and ids of all users:
 
-    ./rscli eln listUsers --maxResults 100 -f csv | grep -v '-' | cut -d ',' -f1,2 > users.csv
+    ./rscli eln listUsers --all -f csv | grep -v '-' | cut -d ',' -f1,2 > users.csv
 
-This gets users, filters out the relevant fields and saves them in a CSV file. (Note there is a limit of 100 users currently).
+This gets users, filters out the relevant fields and saves them in a CSV file. 
 
 Now iterate over this list, export and download:
 
