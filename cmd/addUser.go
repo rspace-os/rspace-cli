@@ -17,7 +17,6 @@ package cmd
 
 import (
 	"io/ioutil"
-
 	"strings"
 
 	"github.com/richarda23/rspace-client-go/rspace"
@@ -30,7 +29,7 @@ type addUserArgs struct {
 
 var userArgs = addUserArgs{}
 
-// addUserCmd represents the createNotebook command
+// addUserCmd represents the addUser command
 var addUserCmd = &cobra.Command{
 	Use:   "addUser",
 	Short: "Adds a new user account",
