@@ -2,6 +2,12 @@
 
 This file records significant changes to this project, from 0.0.19 onwards
 
+## v0.0.22 - 2022-04-25
+
+### Fixed
+
+- \#9 case-insensitive role name for addUser
+
 ## v0.0.21 - 2022-02-24
 
 ### Added
