@@ -26,6 +26,8 @@ import (
 
 var cfgFile string
 
+const DEFAULT_CONFIG_NAME string = ".rspace"
+
 // rootCmd represents the base command when called without any subcommands
 var rootCmd = &cobra.Command{
 	Use:   "rspace-client",
@@ -81,7 +83,7 @@ func initConfig() {
 		}
 		// Search for config in home directory  ".rspace" (without extension).
 		viper.AddConfigPath(home)
-		viper.SetConfigName(".rspace")
+		viper.SetConfigName(DEFAULT_CONFIG_NAME)
 		viper.SetConfigType("env")
 	}
 
