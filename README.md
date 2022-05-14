@@ -44,7 +44,7 @@ your API key, like this:
 
     RSPACE_API_KEY=get_this_from_your_RSpace_profile_page
 
-    RSPACE_URL=https://myrspace.com/api/v1
+    RSPACE_URL=https://myrspace.com
 
 
 If you prefer, instead of the default '.rspace' file,  you can add this information to any file, save it with a '.env' suffix and supply its filepath with the --config flag to each command, e.g.
