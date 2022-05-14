@@ -1,6 +1,12 @@
 ## Changelog
 
-This file records significant changes to this project, from 0.0.19 onwards
+This file records significant changes to this project, from 0.0.19 onwards.
+
+## v0.0.23 - 2022-05-14
+
+### Added
+
+- \#10 A 'configure' command that prompts for API key and RSpace URL 
 
 ## v0.0.22 - 2022-04-25
 
