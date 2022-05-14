@@ -33,9 +33,13 @@ to show commands and their arguments. You can also view an [HTML version](docs/g
 
 ### Configuring
 
-Next, you must supply a configuration file with your RSpace API credentials:
+Next, you must supply your RSpace API credentials and the URL of your RSpace
 
-Create a file called '.rspace' in your home folder and add two lines with the URL of your RSpace and
+You can set this information in two ways.
+
+1. Run `rspace configure` which will prompt you for these values and save as a configuration file called '.rspace' in your home folder.
+
+2. Create a file called '.rspace' in your home folder and add two lines with the URL of your RSpace and
 your API key, like this:
 
     RSPACE_API_KEY=get_this_from_your_RSpace_profile_page
@@ -45,4 +49,4 @@ If you prefer, instead of the default '.rspace' file,  you can add this informat
 
     rspace eln listTree --config /path/to/myConfig.env
 
-Using --config option is useful if you have more than one account (e.g. an admin account and a personal account)
+Using --config option is useful if you have more than one account (e.g. an admin account and a user account)

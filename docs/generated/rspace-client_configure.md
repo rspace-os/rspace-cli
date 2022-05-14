@@ -1,19 +1,19 @@
-## rspace-client version
+## rspace-client configure
 
-Print the version number of RSpace CLI
+Set the URL and API key interactively
 
 ### Synopsis
 
-All software has versions. This is RSpace's
+Configure the application with a URL and API key
 
 ```
-rspace-client version [flags]
+rspace-client configure [flags]
 ```
 
 ### Options
 
 ```
-  -h, --help   help for version
+  -h, --help   help for configure
 ```
 
 ### Options inherited from parent commands

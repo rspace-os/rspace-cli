@@ -23,6 +23,11 @@ func exitWithStdErrMsg(message string) {
 	messageStdErr(message)
 	os.Exit(1)
 }
+
+func exitWithMsgWithExitCode0(message string) {
+	messageStdErr(message)
+	os.Exit(0)
+}
 func exitWithErr(err error) {
 	exitWithStdErrMsg(err.Error())
 }
