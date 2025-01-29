@@ -22,7 +22,6 @@ import (
 )
 
 
-// listDocumentsCmd represents the listDocuments command
 var unshareCmd = &cobra.Command{
     	Use:   "unshare",
 	Args:  cobra.ExactArgs(1),
@@ -31,7 +30,7 @@ var unshareCmd = &cobra.Command{
 	Documents/notebooks can be specified by the 'id' attribute of a ShareInfo response
 	`,
 	Example: `
-// share a document
+// Unshare a document or notebook with ShareInfo id 1245184
 rspace eln unshare 1245184
 
 	`,
