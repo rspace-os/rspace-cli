@@ -36,12 +36,16 @@ var shareArgsa shareArgs
 // listDocumentsCmd represents the listDocuments command
 var shareCmd = &cobra.Command{
 	Use:   "share",
-	Args:  cobra.MinimumNArgs(1),
-	Short: "Shares one or more documents or notebooks with one or more users or groups",
-	Long: `Share documents or notebooks with groups and individual users
-	Documents/notebooks can be specified by plain IDs (e.g. 12345) or by Global Ids (e.g. SD12345)
+	Args:  cobra.RangeArgs(0, 1),
+	Short: "Lists shared items or shares one or more documents or notebooks with one or more users or groups",
+	Long: `Share documents or notebooks with groups and individual users.
+Documents/notebooks can be specified by plain IDs (e.g. 12345) or by Global Ids (e.g. SD12345). 
+List all shared items by calling the command without any arguments. 
 	`,
 	Example: `
+// list all shared items
+rspace eln share
+
 // share a document and notebook with edit permission with a group into a designated folder
 rspace eln share SD12345 NB23456 --groups 122345--permission edit --folder 7689
 
@@ -53,11 +57,27 @@ rspace eln share 12345 --users 122345,45678
 
 	Run: func(cmd *cobra.Command, args []string) {
 		context := initialiseContext()
-		if len(shareArgsa.groupIdsArg) == 0 && len(shareArgsa.userIdsArg) == 0 {
-			exitWithStdErrMsg("You must specify either >= 1 group id (--groups) or >=1  user id (--users) to share with")
+		
+		if len(args) == 1 {
+			// share docs or notebooks	
+			if len(shareArgsa.groupIdsArg) == 0 && len(shareArgsa.userIdsArg) == 0 {
+				exitWithStdErrMsg("You must specify either >= 1 group id (--groups) or >=1  user id (--users) to share with")
+			}
+			doShare(context, args, &shareArgsa)
+		} else {
+			// list shared docs or notebooks
+			doShareList(context)
 		}
-		doShare(context, args, &shareArgsa)
 	},
+}
+
+func doShareList(ctx *Context) {
+	shareList, err := ctx.WebClient.ShareList("", rspace.NewRecordListingConfig())
+	if err != nil {
+		exitWithErr(err)
+	}
+	formatter := &SharedItemListFormatter{shareList}
+	ctx.writeResult(formatter)
 }
 
 func doShare(ctx *Context, args []string, shareArgs *shareArgs) {
@@ -116,8 +136,18 @@ type ShareInfoListFormatter struct {
 	shareList *rspace.ShareInfoList
 }
 
+
+type SharedItemListFormatter struct {
+	sharedList *rspace.SharedItemList
+}
+
+
 func (fs *ShareInfoListFormatter) ToJson() string {
 	return prettyMarshal(fs.shareList)
+}
+
+func (fs *SharedItemListFormatter) ToJson() string {
+	return prettyMarshal(fs.sharedList)
 }
 
 func (ds *ShareInfoListFormatter) ToQuiet() []identifiable {
@@ -128,8 +158,32 @@ func (ds *ShareInfoListFormatter) ToQuiet() []identifiable {
 	return rows
 }
 
+func (ds *SharedItemListFormatter) ToQuiet() []identifiable {
+	rows := make([]identifiable, 0)
+	for _, res := range ds.sharedList.Shares {
+		rows = append(rows, identifiable{strconv.Itoa(res.Id)})
+	}
+	return rows
+}
+
 func (ds *ShareInfoListFormatter) ToTable() *TableResult {
 	results := ds.shareList.ShareInfos
+
+	headers := []columnDef{columnDef{"Id", 8}, columnDef{"ItemId", 10}, columnDef{"ItemName", 25},
+		columnDef{"SharedWith", 25}, columnDef{"Permission", 10}}
+
+	rows := make([][]string, 0)
+	for _, res := range results {
+		data := []string{strconv.Itoa(res.Id), strconv.Itoa(res.ItemId), res.ItemName,
+			res.TargetType, res.Permission}
+		rows = append(rows, data)
+	}
+	return &TableResult{headers, rows}
+
+}
+
+func (ds *SharedItemListFormatter) ToTable() *TableResult {
+	results := ds.sharedList.Shares
 
 	headers := []columnDef{columnDef{"Id", 8}, columnDef{"ItemId", 10}, columnDef{"ItemName", 25},
 		columnDef{"SharedWith", 25}, columnDef{"Permission", 10}}
